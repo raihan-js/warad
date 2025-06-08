@@ -1,5 +1,6 @@
+// app/surah/[id].tsx
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -29,6 +30,14 @@ export default function SurahScreen() {
   
   const surahId = parseInt(id as string);
   const currentSurah = surahs.find(s => s.id === surahId);
+
+  // Set the dynamic header title
+  useEffect(() => {
+    if (currentSurah) {
+      // This will update the header title
+      router.setParams({ title: currentSurah.name_simple });
+    }
+  }, [currentSurah, router]);
 
   useEffect(() => {
     const loadSurahDetails = async () => {
@@ -110,19 +119,13 @@ export default function SurahScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#FACC15" />
-        </Pressable>
-        <View style={styles.headerTitleContainer}>
-          <Text style={styles.headerTitle}>{currentSurah?.name_simple}</Text>
-          <Text style={styles.headerSubtitle}>{currentSurah?.translated_name.name}</Text>
-        </View>
-        <Pressable style={styles.infoButton}>
-          <Ionicons name="information-circle-outline" size={24} color="#FACC15" />
-        </Pressable>
-      </View>
+      {/* Set the dynamic header title */}
+      <Stack.Screen 
+        options={{
+          title: currentSurah?.name_simple || "Surah",
+          headerBackTitle: "Back",
+        }}
+      />
 
       {/* Bismillah */}
       {surahId !== 9 && (
@@ -130,6 +133,17 @@ export default function SurahScreen() {
           <Text style={styles.bismillahText}>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</Text>
         </View>
       )}
+    
+      {/* Surah Info */}
+      <View style={styles.surahInfoContainer}>
+        <Text style={styles.surahTitle}>{currentSurah?.name_simple || "Surah"}</Text>
+        <Text style={styles.surahSubtitle}>{currentSurah?.translated_name?.name || ""}</Text>
+        <Text style={styles.surahMeta}>
+          {currentSurah?.revelation_place 
+            ? `${currentSurah.revelation_place.charAt(0).toUpperCase()}${currentSurah.revelation_place.slice(1)}` 
+            : 'Unknown'} • {currentSurah?.verses_count ?? 0} Verses
+        </Text>
+      </View>
 
       {/* Ayahs List */}
       <FlatList
@@ -212,7 +226,7 @@ export default function SurahScreen() {
   );
 }
 
-// Add the missing styles
+// Update styles to remove the custom header styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -253,34 +267,27 @@ const styles = StyleSheet.create({
     color: '#1A202C',
     fontWeight: 'bold',
   },
-  header: {
-    flexDirection: 'row',
+  // New surah info container
+  surahInfoContainer: {
+    padding: 16,
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#2D3748',
   },
-  backButton: {
-    padding: 8,
-  },
-  headerTitleContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+  surahTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
     color: '#FACC15',
   },
-  headerSubtitle: {
-    fontSize: 12,
+  surahSubtitle: {
+    fontSize: 16,
     color: '#A1A1AA',
-    marginTop: 2,
+    marginTop: 4,
   },
-  infoButton: {
-    padding: 8,
+  surahMeta: {
+    fontSize: 14,
+    color: '#A1A1AA',
+    marginTop: 8,
   },
   bismillahContainer: {
     alignItems: 'center',
