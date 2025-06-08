@@ -1,50 +1,99 @@
-# Welcome to your Expo app 👋
+# 🌙 Warad — Your Daily Qur’an Recitation Companion
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Warad** is a mobile app designed to help Muslims maintain fluency in Qur’an recitation through consistent daily practice. Inspired by the founder's personal journey and challenges in maintaining Tajweed and fluency as an adult, Warad aims to solve a real, spiritual need with technology.
 
-## Get started
+> **"Warad" (وِرْد) refers to the daily portion of recitation or dhikr.**  
+> This app helps you make Qur’anic practice a regular, rewarding habit — no matter your fluency level.
 
-1. Install dependencies
+---
+
+## 📱 App Features (MVP & Beyond)
+
+### ✅ MVP (v1)
+- **Daily Recitation Plan**: Recite a few ayahs daily from selected Surahs.
+- **Clean Practice UI**: Arabic text, transliteration, and meaning displayed.
+- **Audio Recording**: Record your recitation using `expo-av`.
+- **Playback**: Listen to your own voice and compare to reference reciters.
+- **Surah Selection**: Start from Juz Amma or choose a Surah.
+- **Progress Tracking (local)**: Daily streaks and simple session history.
+
+### 🚀 Planned Premium Features (v2+)
+- **AI-Powered Recitation Feedback** (using Whisper by OpenAI):
+  - Detect incorrect, skipped, or mispronounced words
+  - Highlight mistakes (e.g., ❌ red overlay on incorrect words)
+- **Fluency Scoring**: Show user fluency over time.
+- **Habit Engine**: Daily reminders and practice streaks.
+- **Tajweed Guidance** (future): Identify missed Tajweed rules like Madd, Ghunna, etc.
+- **Bangladeshi Accent Optimization**: Fine-tuned voice model for local reciters.
+- **Offline Mode**: Recite without internet access.
+
+---
+
+## 🧱 Tech Stack
+
+- **React Native** (Expo CLI)
+- **EAS CLI** for builds and deployments
+- **Audio**: `expo-av`, `expo-file-system`
+- **Navigation**: React Navigation
+- **Backend (Planned)**: Whisper backend API, Supabase or Firebase
+- **Voice AI**: Whisper (for transcription + feedback)
+- **Qur’an Data**: [Quran.com API](https://quran.api-docs.io/) for Surah and ayah data
+
+
+---
+
+## 🔧 Get Started
+
+1. **Install dependencies**
 
    ```bash
    npm install
-   ```
+````
 
-2. Start the app
+2. **Run the app**
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+   You can open the app in:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   * [Android Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+   * [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
+   * [Expo Go](https://expo.dev/go)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3. **Reset project to start fresh**
 
-## Get a fresh project
+   ```bash
+   npm run reset-project
+   ```
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
-```
+## 💡 Inspiration
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+> “I completed the Qur’an as a child, but years later I struggle with certain Surahs due to lack of practice. This app is my solution for myself and others like me.”
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## 📚 Resources
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+* [Expo Documentation](https://docs.expo.dev/)
+* [Quran.com API](https://quran.api-docs.io/)
+* [Whisper by OpenAI](https://platform.openai.com/docs/guides/speech-to-text)
+* [Tarteel AI (Reference)](https://tarteel.ai)
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 📬 Contact & Contributions
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+**Author**: Akteruzzaman Raihan Sikder
+📧 [bracketi2023@gmail.com](mailto:bracketi2023@gmail.com)
+🌐 GitHub and production repo to be added soon.
+
+---
+
+## 🕋 Made for Muslims — By a Muslim
+
+**Warad** is built with the intention of serving the ummah by helping Muslims strengthen their connection with the Qur’an. May Allah accept this effort. 🤲
+
