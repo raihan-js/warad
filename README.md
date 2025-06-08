@@ -85,14 +85,6 @@
 
 ---
 
-## 📬 Contact & Contributions
-
-**Author**: Akteruzzaman Raihan Sikder
-📧 [bracketi2023@gmail.com](mailto:bracketi2023@gmail.com)
-🌐 GitHub and production repo to be added soon.
-
----
-
 ## 🕋 Made for Muslims — By a Muslim
 
 **Warad** is built with the intention of serving the ummah by helping Muslims strengthen their connection with the Qur’an. May Allah accept this effort. 🤲
