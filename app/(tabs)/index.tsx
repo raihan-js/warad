@@ -1,12 +1,37 @@
-import { SURAH_LIST } from '@/constants/surahList';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { FlatList, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useQuran } from '../../context/QuranContext';
 
 export default function HomeScreen() {
   const router = useRouter();
-  
+  const { surahs, loading, error, lastRead } = useQuran();
+
+  // For debugging
+  console.log("Surahs data:", JSON.stringify(surahs.slice(0, 3)));
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#FACC15" />
+        <Text style={styles.loadingText}>Loading Quran data...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  if (error) {
+    return (
+      <SafeAreaView style={styles.errorContainer}>
+        <Ionicons name="alert-circle" size={48} color="#FACC15" />
+        <Text style={styles.errorText}>{error}</Text>
+        <Pressable style={styles.retryButton}>
+          <Text style={styles.retryButtonText}>Retry</Text>
+        </Pressable>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header Section */}
@@ -19,7 +44,7 @@ export default function HomeScreen() {
           <Ionicons name="search" size={24} color="#FACC15" />
         </View>
       </View>
-      
+
       {/* Last Read Section */}
       <LinearGradient
         colors={['#2D3748', '#1A202C']}
@@ -28,24 +53,43 @@ export default function HomeScreen() {
         <View style={styles.lastReadContent}>
           <View>
             <Text style={styles.lastReadLabel}>Last Read</Text>
-            <Text style={styles.lastReadSurah}>Al-Fatihah</Text>
-            <Text style={styles.lastReadAyah}>Ayah No: 1</Text>
+            <Text style={styles.lastReadSurah}>
+              {lastRead ? lastRead.surahName : 'Al-Fatihah'}
+            </Text>
+            <Text style={styles.lastReadAyah}>
+              Ayah No: {lastRead ? lastRead.ayahNumber : 1}
+            </Text>
           </View>
-          <View style={styles.readButton}>
+          <Pressable 
+            style={styles.readButton}
+            onPress={() => {
+              if (lastRead) {
+                router.push({
+                  pathname: '/surah/[id]',
+                  params: { id: lastRead.surahId.toString() },
+                });
+              } else {
+                router.push({
+                  pathname: '/surah/[id]',
+                  params: { id: '1' },
+                });
+              }
+            }}
+          >
             <Ionicons name="play" size={20} color="#1A202C" />
-          </View>
+          </Pressable>
         </View>
         <View style={styles.decorativePattern}></View>
       </LinearGradient>
-      
+
       {/* Surah List Section */}
       <View style={styles.surahListHeader}>
         <Text style={styles.sectionTitle}>📖 Surahs</Text>
-        <Text style={styles.totalCount}>{SURAH_LIST.length} Surahs</Text>
+        <Text style={styles.totalCount}>{surahs.length} Surahs</Text>
       </View>
-      
+
       <FlatList
-        data={SURAH_LIST}
+        data={surahs}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
@@ -62,11 +106,11 @@ export default function HomeScreen() {
               <Text style={styles.surahNumber}>{item.id}</Text>
             </View>
             <View style={styles.surahInfo}>
-              <Text style={styles.surahName}>{item.name}</Text>
-              <Text style={styles.englishName}>{item.english}</Text>
+              <Text style={styles.surahName}>{item.name_simple}</Text>
+              <Text style={styles.englishName}>{item.translated_name.name}</Text>
             </View>
             <View style={styles.surahMeta}>
-              <Text style={styles.arabicName}>سورة</Text>
+              <Text style={styles.arabicName}>{item.name_arabic}</Text>
               <Ionicons name="chevron-forward" size={16} color="#A1A1AA" />
             </View>
           </Pressable>
@@ -75,11 +119,45 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#121212',
     flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: '#121212',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    color: '#FACC15',
+    marginTop: 16,
+    fontSize: 16,
+  },
+  errorContainer: {
+    flex: 1,
+    backgroundColor: '#121212',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    color: '#FACC15',
+    marginTop: 16,
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#FACC15',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: '#1A202C',
+    fontWeight: 'bold',
   },
   header: {
     flexDirection: 'row',
